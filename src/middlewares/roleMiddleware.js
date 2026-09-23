@@ -1,5 +1,3 @@
-const { rawListeners } = require("../models/User")
-
 const authorizeRoles = (...allowedRoles) => {
     return (req, res, next) => {
         if (!req.user) {

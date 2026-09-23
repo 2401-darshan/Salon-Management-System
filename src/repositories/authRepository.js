@@ -8,6 +8,10 @@ const findUserById = async (id) => {
     return await Users.findById(id);
 };
 
+const createUser = async (userData) => {
+    return await Users.create(userData);
+};
+
 const updatePassword = async (id, password) => {
     return await Users.findByIdAndUpdate(
         id,
@@ -19,5 +23,6 @@ const updatePassword = async (id, password) => {
 module.exports = {
     findUserByEmail,
     findUserById,
+    createUser,
     updatePassword
 };

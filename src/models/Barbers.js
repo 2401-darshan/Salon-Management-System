@@ -5,11 +5,13 @@ const BarbersSchema = new mongoose.Schema(
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-        required: true
+        required: true,
+        unique: true
     },
     specialization: {
         type: String,
-        default: null
+        default: null,
+        trim: true
     },
     commission_percentage: {
         type: Number,

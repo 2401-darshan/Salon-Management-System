@@ -8,10 +8,18 @@ const app = express();
 app.use(express.json());
 
 const authRoutes = require('./src/routes/authRoutes');
+
 const customerRoutes = require('./src/routes/customerRoutes');
+const serviceRoutes = require('./src/routes/serviceRoutes');
+const barberRoutes = require('./src/routes/barberRoutes');
+const appointmentRoutes = require('./src/routes/appointmentRoutes');
+const authMiddleware = require('./src/middlewares/authMiddleware');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/barbers', barberRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 ConnectDB();
 

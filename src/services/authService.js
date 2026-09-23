@@ -1,7 +1,55 @@
 const authRepository = require("../repositories/authRepository");
-const { comparePassword } = require("../utils/password");
+const { comparePassword }  = require("../utils/password");
 const { generateToken } = require("../utils/jwt");
 const { hashPassword } = require("../utils/password");
+
+const register = async (name, email, password, role) => {
+
+    if (!name || !email || !password || !role) {
+        throw new Error(
+            "Name, email, password and role are required"
+        );
+    }
+
+    const existingUser = await authRepository.findUserByEmail(email);
+
+    if (existingUser) {
+        throw new Error("User already exists with this email");
+    }
+
+    const allowedRoles = [
+        "Administrator",
+        "Receptionist",
+        "Barber"
+    ];
+
+    if (!allowedRoles.includes(role)) {
+        throw new Error(
+            "Only Administrator, Receptionist and Barber can be registered."
+        );
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const user = await authRepository.createUser({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        status: "Active"
+    });
+
+    return {
+        message: "User registered successfully",
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            status: user.status
+        }
+    };
+};
 
 const login = async (email, password) => {
 
@@ -44,13 +92,13 @@ const logout = async () => {
 const changePassword = async (userId, oldPassword, newPassword) => {
     const user = await authRepository.findUserById(userId);
 
-    if(!user) {
+    if (!user) {
         throw new Error("User not found");
     }
 
     const isMatch = await comparePassword(oldPassword, user.password);
 
-    if(!isMatch) {
+    if (!isMatch) {
         throw new Error("Old password is incorrect");
     }
 
@@ -62,4 +110,5 @@ const changePassword = async (userId, oldPassword, newPassword) => {
         message: "Password changed successfully"
     }
 }
-module.exports = { login, logout, changePassword };
+
+module.exports = { register, login, logout, changePassword };

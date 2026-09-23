@@ -1,54 +1,37 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-require("dotenv").config();
+// const bcrypt = require("bcrypt");
+// require("dotenv").config();
 
-const connectDB = require("./src/config/db");
-const User = require("./src/models/User");
+// const connectDB = require("./src/config/db");
+// const User = require("./src/models/User");
 
-const seedUsers = async () => {
-    try {
-        await connectDB();
+// const seedAdmin = async () => {
+//     try {
+//         await connectDB();
 
-        // Delete existing users
-        await User.deleteMany();
+//         const existingAdmin = await User.findOne({
+//             email: "darshan@admin.com"
+//         });
 
-        // Hash passwords
-        const adminPassword = await bcrypt.hash("admin123", 10);
-        const receptionistPassword = await bcrypt.hash("receptionist123", 10);
-        const barberPassword = await bcrypt.hash("barber123", 10);
+//         if (existingAdmin) {
+//             console.log("Admin already exists.");
+//             return;
+//         }
 
-        await User.insertMany([
-            {
-                id: 1,
-                name: "Administrator",
-                email: "admin@salon.com",
-                password: adminPassword,
-                role: "Administrator",
-                status: "Active"
-            },
-            {
-                id: 2,
-                name: "Receptionist",
-                email: "reception@salon.com",
-                password: receptionistPassword,
-                role: "Receptionist",
-                status: "Active"
-            },
-            {
-                id: 3,
-                name: "Barber",
-                email: "barber@salon.com",
-                password: barberPassword,
-                role: "Barber",
-                status: "Active"
-            }
-        ]);
+//         const adminPassword = await bcrypt.hash("Darshanbhai", 10);
 
-        console.log("Users added successfully.");
+//         await User.create({
+//             name: "Administrator",
+//             email: "darshan@admin.com",
+//             password: adminPassword,
+//             role: "Administrator",
+//             status: "Active"
+//         });
 
-    } catch (err) {
-        console.error(err);
-    }
-};
+//         console.log("Admin created successfully.");
 
-seedUsers();
+//     } catch (err) {
+//         console.error(err);
+//     }
+// };
+
+// seedAdmin();
